@@ -2174,8 +2174,9 @@ void *writer(void *arg)
 			set_attributes(file->pathname, file->mode, file->uid,
 				file->gid, file->time, file->xattr, force);
 		else {
-			ERROR("Failed to write %s, skipping\n", file->pathname);
+			ERROR("Failed to write %s\n", file->pathname);
 			unlink(file->pathname);
+			exit(1);
 		}
 		free(file->pathname);
 		free(file);
