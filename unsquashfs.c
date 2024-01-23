@@ -1831,7 +1831,7 @@ int read_super(char *source)
     }
 
     // CJH: Notify if endianess is different
-    if(swap)
+    if(swap){
         ERROR("Reading a different endian SQUASHFS filesystem on %s\n", source);
 
 	/*
@@ -1842,7 +1842,7 @@ int read_super(char *source)
 	// CJH: swap detection already done generically above
     //swap = sBlk_4.s_magic != SQUASHFS_MAGIC;
 	SQUASHFS_INSWAP_SUPER_BLOCK(&sBlk_4);
-
+    }
     /*
      * CJH: Don't consider it an error if SQUASHFS_MAGIC doesn't match
 	if(sBlk_4.s_magic == SQUASHFS_MAGIC && sBlk_4.s_major == 4 &&
@@ -2604,7 +2604,6 @@ int main(int argc, char *argv[])
 	int data_buffer_size = DATA_BUFFER_DEFAULT;
 
     // CJH: Initialize verbosity to FALSE
-    verbose = FALSE;
 
 	pthread_mutex_init(&screen_mutex, NULL);
 	root_process = geteuid() == 0;
@@ -2787,8 +2786,6 @@ int main(int argc, char *argv[])
 #else
             swap = 1;
 #endif
-        else if(strcmp(argv[i], "-trace") == 0)
-            verbose = TRUE;
 		else
 			goto options;
 	}
